@@ -27,10 +27,6 @@ export const useSprintsStore = defineStore(
 
             teammates.value.push(teammate);
 
-            // sprints.value.forEach(sprint => {
-            //   sprint.absences[teammate] = 0;
-            // });
-
             return Promise.resolve(true);
         }
 

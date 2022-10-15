@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SprintList from "@/components/SprintList.vue";
+import Calculator from "@/components/Calculator.vue";
 </script>
 
 <template>
@@ -10,7 +11,13 @@ import SprintList from "@/components/SprintList.vue";
       </el-header>
 
       <el-main>
-        <sprint-list />
+
+        <el-container>
+          <el-aside width="200px">
+            <calculator/>
+          </el-aside>
+          <sprint-list />
+        </el-container>
       </el-main>
       <el-footer>
         <a href="https://iradesign.io"> Illustrations by IRA Design </a>

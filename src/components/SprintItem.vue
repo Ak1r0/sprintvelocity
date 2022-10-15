@@ -22,9 +22,11 @@ const absencesToManDays = (sprint: Sprint, teammate: string) => {
 </script>
 
 <template>
+  <el-row>
   <el-col :span="3" style="width: max-content">
     <h3>{{ sprint.name }}</h3>
-    <span>{{ sprint.weeks }} week{{ sprint.weeks > 1 ? "s" : "" }}</span>
+    <div>{{ sprint.weeks }} week{{ sprint.weeks > 1 ? "s" : "" }}</div>
+    <div>{{ sprint.sp }} SP</div>
   </el-col>
   <el-col :span="1" v-for="teammate in store.teammates" :key="teammate">
     {{ absencesToManDays(sprint, teammate) }}
@@ -39,6 +41,7 @@ const absencesToManDays = (sprint: Sprint, teammate: string) => {
       ><el-icon color="red"><Delete /></el-icon
     ></el-button>
   </el-col>
+  </el-row>
 </template>
 
 <style scoped></style>

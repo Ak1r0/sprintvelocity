@@ -42,6 +42,16 @@ const daysInSprint = computed((): number => {
       />
     </el-form-item>
 
+    <el-form-item label="SP">
+      <el-input-number
+          :model-value="modelValue.sp"
+          @change="(value) => update('sp', value)"
+          :step="1"
+          :step-strictly="true"
+          :min="0"
+      />
+    </el-form-item>
+
     <h4>Scheduled absences</h4>
 
     <el-form-item

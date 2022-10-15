@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Calculator: typeof import('./src/components/Calculator.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -37,6 +38,7 @@ declare module '@vue/runtime-core' {
     TeammateItem: typeof import("./src/components/TeammateItem.vue")["default"]
     TeammateList: typeof import("./src/components/TeammateList.vue")["default"]
     TheWelcome: typeof import("./src/components/TheWelcome.vue")["default"]
+    Velocity: typeof import('./src/components/Velocity.vue')['default']
     WelcomeItem: typeof import("./src/components/WelcomeItem.vue")["default"]
   }
 }

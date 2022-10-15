@@ -34,3 +34,13 @@ pnpm run build
 ```sh
 pnpm run lint
 ```
+
+## TODO 
+
+- Last sprint is "current" sprint
+- Calculator
+- Service SprintManager to remove complexity from store
+- Add #version in store for structure updates & migrates
+- Import/Export store as json file
+- Add differents calculator algo to suit differents needs
+- Allow to manage many teams with differents sprints
