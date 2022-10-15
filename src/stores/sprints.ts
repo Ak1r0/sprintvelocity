@@ -1,44 +1,64 @@
-import { ref } from "vue";
-import { defineStore } from "pinia";
+import {ref} from "vue";
+import {defineStore} from "pinia";
 
-export const useSprintsStore = defineStore("sprints", () => {
-  const sprints = ref<Sprint[]>([]);
-  const teammates = ref<Set<Teammate>>(new Set());
+export const useSprintsStore = defineStore(
+    "sprints",
+    () => {
+        const count = ref(1);
+        const sprints = ref<Sprint[]>([]);
+        const teammates = ref<string[]>([]);
 
-  function addSprint(sprint: Sprint) {
-    sprints.value.push(sprint);
-  }
+        function addSprint(sprint: Sprint) {
+            sprints.value.push(sprint);
+            ++count.value;
+        }
 
-  function removeSprint(index: number = 0) {
-    sprints.value.splice(index, 1);
-  }
+        function removeSprint(sprint: Sprint) {
+            const index = sprints.value.indexOf(sprint);
+            if (index !== -1) {
+                sprints.value.splice(index, 1);
+            }
+        }
 
-  async function addTeammate(teammate: Teammate): Promise<boolean> {
-    if(teammates.value.has(teammate)) {
-      return Promise.reject(`Teammate '${teammate}' already exists`);
+        async function addTeammate(teammate: string): Promise<boolean> {
+            if (teammates.value.indexOf(teammate) > -1) {
+                return Promise.reject(`Teammate '${teammate}' already exists`);
+            }
+
+            teammates.value.push(teammate);
+
+            // sprints.value.forEach(sprint => {
+            //   sprint.absences[teammate] = 0;
+            // });
+
+            return Promise.resolve(true);
+        }
+
+        async function removeTeammate(teammate: string): Promise<boolean> {
+            const index = teammates.value.indexOf(teammate);
+            if (index === -1) {
+                return Promise.reject(`Teammate '${teammate}' doesnt exists`);
+            }
+
+            sprints.value.forEach((sprint) => {
+                delete sprint.absences[teammate];
+            });
+            teammates.value.splice(index, 1);
+
+            return Promise.resolve(true);
+        }
+
+        return {
+            count,
+            sprints,
+            addSprint,
+            removeSprint,
+            teammates,
+            addTeammate,
+            removeTeammate,
+        };
+    },
+    {
+        persist: true,
     }
-
-    teammates.value.add(teammate);
-
-    sprints.value.forEach(sprint => {
-      sprint.mandays.set(teammate, 0);
-    })
-
-    return Promise.resolve(true);
-  }
-
-  async function removeTeammate(teammate: Teammate): Promise<boolean> {
-    if(!teammates.value.has(teammate)) {
-      return Promise.reject(`Teammate '${teammate}' doesnt exists`);
-    }
-
-    sprints.value.forEach(sprint => {
-      sprint.mandays.delete(teammate);
-    });
-    teammates.value.delete(teammate);
-
-    return Promise.resolve(true);
-  }
-
-  return { sprints, addSprint, removeSprint, teammates, addTeammate, removeTeammate};
-});
+);

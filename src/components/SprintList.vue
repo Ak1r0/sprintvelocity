@@ -1,85 +1,98 @@
 <script setup lang="ts">
-
-import {ref} from "vue";
-import {useSprintsStore} from "@/stores/sprints";
-import {ElMessage} from "element-plus";
+import { reactive, ref } from "vue";
+import { useSprintsStore } from "@/stores/sprints";
+import { ElMessage } from "element-plus";
+import { Close } from "@element-plus/icons-vue";
 import SprintForm from "@/components/SprintForm.vue";
+import SprintItem from "@/components/SprintItem.vue";
 
 const store = useSprintsStore();
 
-const drawer = ref(false)
-const newTeammateName = ref('');
+const drawer = ref(false);
+const newTeammateName = ref("");
+const daysAWeek = ref(5);
+const editedSprintIndex = ref<number>(0);
 
 const addTeammate = () => {
-  store.addTeammate(newTeammateName.value)
-      .catch((msg)=>{
-        ElMessage({
-          message: msg,
-          type: 'error',
-        })
-      });
-}
+  store.addTeammate(newTeammateName.value).catch((msg) => {
+    ElMessage({
+      message: msg,
+      type: "error",
+    });
+  });
+};
 
-const addSprint = (sprint: Sprint) => {
+const newSprint = () => {
+  let sprint: Sprint = reactive({
+    name: `sprint ${store.count}`,
+    weeks: 2,
+    absences: {},
+    sp: 0
+  });
+  for (let teammate of store.teammates) {
+    sprint.absences[teammate] = 0;
+  }
   store.addSprint(sprint);
-  drawer.value = false;
-}
+  editSprint(sprint);
+};
 
+const editSprint = (sprint: Sprint) => {
+  editedSprintIndex.value = store.sprints.indexOf(sprint);
+  drawer.value = true;
+};
 </script>
 
 <template>
-  <table>
-    <thead>
-    <tr>
-      <td rowspan="2">Sprint</td>
-      <td>Teammates</td>
-    </tr>
-    <tr>
-      <td v-for="teammate in store.teammates">
-        {{teammate}}
-        <el-button @click="store.removeTeammate(teammate)">Remove</el-button>
-      </td>
-      <td>
-        <el-input v-model="newTeammateName" placeholder="name"/>
-        <el-button @click="addTeammate()">Add</el-button>
-      </td>
-    </tr>
-    </thead>
-    <tbody>
-      <tr v-for="sprint in store.sprints">
-        <td>
-          <h3>{{sprint.name}}</h3>
-          <span>{{sprint.weeks}} weeks</span>
-        </td>
-        <td v-for="teammate in store.teammates">
-          {{sprint.mandays.get(teammate) ?? 10 }}
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-    <tfoot>
+  <el-container>
+    <el-aside width="200px"> PLop</el-aside>
 
-    </tfoot>
-  </table>
+    <el-container direction="vertical">
+      <el-row>
+        <el-col :span="3">Sprint</el-col>
+        <el-col :span="1">Teammates</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="3"></el-col>
+        <el-col :span="1" v-for="teammate in store.teammates" :key="teammate">
+          {{ teammate }}
+          <el-button @click="store.removeTeammate(teammate)">
+            <el-icon color="red">
+              <Close />
+            </el-icon>
+          </el-button>
+        </el-col>
+        <el-col :span="1">
+          <el-input v-model="newTeammateName" placeholder="name" />
+          <el-button @click="addTeammate()">Add</el-button>
+        </el-col>
+      </el-row>
+      <el-row v-for="sprint in store.sprints" :key="sprint.name">
+        <sprint-item
+          :sprint="sprint"
+          :days-a-week="daysAWeek"
+          @edit="editSprint"
+        />
+      </el-row>
 
-  <el-button type="primary"
-             :disabled="store.teammates.size === 0"
-             @click="drawer = true">
-    New sprint
-  </el-button>
-
-  <el-drawer v-model="drawer"
-             title="New sprint">
-    <sprint-form @save="addSprint"/>
+      <el-button
+        type="primary"
+        :disabled="store.teammates.size === 0"
+        @click="newSprint()"
+      >
+        New sprint
+      </el-button>
+    </el-container>
+  </el-container>
+  <el-drawer v-model="drawer" title="New sprint">
+    <sprint-form
+      v-model="store.sprints[editedSprintIndex]"
+      :days-a-week="daysAWeek"
+    />
   </el-drawer>
 </template>
 
 <style scoped>
 table {
   border-collapse: collapse;
-}
-
-.new-sprint-tr {
-  background-color: var(--el-color-primary-light-7);
 }
 </style>

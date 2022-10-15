@@ -1,7 +1,8 @@
-type Teammate = string;
+type TeammateList = { [teammate: string]: number };
 
 type Sprint = {
-    name: string,
-    mandays: Map<Teammate, number>,
-    weeks: number
-}
+  name: string;
+  absences: TeammateList;
+  weeks: number;
+  sp: number
+};

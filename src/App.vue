@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import HelloWorld from "./components/SprintList.vue";
 import SprintList from "@/components/SprintList.vue";
 </script>
 
@@ -14,9 +13,7 @@ import SprintList from "@/components/SprintList.vue";
         <sprint-list />
       </el-main>
       <el-footer>
-        <a href="https://iradesign.io">
-          Illustrations by IRA Design
-        </a>
+        <a href="https://iradesign.io"> Illustrations by IRA Design </a>
       </el-footer>
     </el-container>
   </el-config-provider>

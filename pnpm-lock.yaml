@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@element-plus/icons-vue': ^2.0.10
   '@rushstack/eslint-patch': ^1.1.4
   '@types/node': ^16.11.56
   '@vitejs/plugin-vue': ^3.0.3
@@ -12,6 +13,7 @@ specifiers:
   eslint-plugin-vue: ^9.3.0
   npm-run-all: ^4.1.5
   pinia: ^2.0.21
+  pinia-plugin-persistedstate: ^2.3.0
   prettier: ^2.7.1
   typescript: ~4.7.4
   unplugin-auto-import: ^0.11.2
@@ -21,8 +23,10 @@ specifiers:
   vue-tsc: ^0.40.7
 
 dependencies:
+  '@element-plus/icons-vue': 2.0.10_vue@3.2.40
   element-plus: 2.2.17_vue@3.2.40
   pinia: 2.0.23_rg374xhldfcyvjtaj3qktyfz5y
+  pinia-plugin-persistedstate: 2.3.0_pinia@2.0.23
   vue: 3.2.40
 
 devDependencies:
@@ -1923,6 +1927,17 @@ packages:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
     dev: true
+
+  /pinia-plugin-persistedstate/2.3.0_pinia@2.0.23:
+    resolution: {integrity: sha512-K7vzt68Z3lbMDjb23Ki2vgHVBP2QFvjl7WNwzIwqY/DAkhSt8mi/z6bN/cXTst7fJjXWF0lC9NyxFKHfxWehuw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.23_rg374xhldfcyvjtaj3qktyfz5y
+    dev: false
 
   /pinia/2.0.23_rg374xhldfcyvjtaj3qktyfz5y:
     resolution: {integrity: sha512-N15hFf4o5STrxpNrib1IEb1GOArvPYf1zPvQVRGOO1G1d74Ak0J0lVyalX/SmrzdT4Q0nlEFjbURsmBmIGUR5Q==}
