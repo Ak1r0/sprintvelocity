@@ -24,36 +24,33 @@ const newSprint = () => {
         <el-input-number v-model="form.daysAWeek" size="small"/>
         <span>&nbsp;days a week</span>
       </el-form-item>
-      <el-form-item label="Count only the ">
-        <el-input-number v-model="form.lastSprints"  size="small"/>
+      <el-form-item label="Count only">
+        <el-input-number v-model="form.lastSprints" size="small"/>
         <span>&nbsp; last sprints</span>
       </el-form-item>
       <el-form-item label="Finished sprints only">
-        <el-switch v-model="form.finishedSprints" />
+        <el-switch v-model="form.finishedSprints"/>
       </el-form-item>
     </el-form>
   </div>
-  <el-scrollbar>
-    <div class="sprint-list">
-      <div>
-        <el-tooltip
-            content="New sprint"
-            placement="bottom"
-        >
-          <el-button type="primary" class="new-sprint-button" @click="newSprint">
-            <el-icon :size="20">
-              <Plus/>
-            </el-icon>
-          </el-button>
-        </el-tooltip>
-      </div>
-      <div v-for="(sprint, index) in sprintsManager.getSprints()" :key="index">
-        <sprint-list-item
-            :sprint="sprint"
-        />
-      </div>
-    </div>
-  </el-scrollbar>
+  <el-row>
+    <el-col :xs="24" :md="1">
+      <el-tooltip content="New sprint" placement="bottom">
+        <el-button type="primary" class="new-sprint-button" @click="newSprint">
+          <el-icon :size="20"><Plus/></el-icon>
+        </el-button>
+      </el-tooltip>
+    </el-col>
+    <el-col :xs="24" :md="23">
+      <el-scrollbar>
+        <div class="sprint-list">
+          <div v-for="(sprint, index) in sprintsManager.getSprints()" :key="index">
+            <sprint-list-item :sprint="sprint" />
+          </div>
+        </div>
+      </el-scrollbar>
+    </el-col>
+  </el-row>
 </template>
 
 <style scoped>
@@ -69,6 +66,7 @@ table {
 
 .new-sprint-button {
   height: 100%;
-  width: 80px;
+  width: 100%;
+  max-height: 350px;
 }
 </style>

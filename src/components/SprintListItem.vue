@@ -123,7 +123,7 @@ const addTeammate = (value: string) => {
                 :disabled="sprint.isFinished"
             />
           </el-form-item>
-          <el-form-item v-if="isNew">
+          <el-form-item v-show="isNew">
             <el-input placeholder="Add teammate" v-model="newTeammate" @change="addTeammate"/>
             <label class="add-teammate-label">Press enter to validate</label>
           </el-form-item>
@@ -155,8 +155,7 @@ const addTeammate = (value: string) => {
 
 .sprint-item {
   margin: 5px;
-  min-width: 300px;
-  max-width: 25vw;
+  width: 300px;
 }
 
 .sprint-item-actions {
