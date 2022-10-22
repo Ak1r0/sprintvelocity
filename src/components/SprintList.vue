@@ -1,98 +1,80 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import {useSprintsStore} from "@/stores/sprints";
-import {ElMessage} from "element-plus";
-import {Close} from "@element-plus/icons-vue";
-import SprintForm from "@/components/SprintForm.vue";
-import SprintItem from "@/components/SprintItem.vue";
+import useSprintsManager from "@/services/SprintsManager";
+import {Plus} from "@element-plus/icons-vue";
 
-const store = useSprintsStore();
+const sprintsManager = useSprintsManager();
 
-const drawer = ref(false);
-const newTeammateName = ref("");
+//todo check sur mobile
+//todo lorsque les SP d'un sprint started sont modifies : compter les difference de SP par raport a l'etat initial
+//todo faire un graph affichant ces differences
+
+const form = reactive({ //todo mettre dans un store
+  daysInWeek: 5,
+  xLastSprints: 5,
+  finishedSprintsOnly: true,
+})
 const daysAWeek = ref(5);
-const editedSprintIndex = ref<number>(0);
-
-const addTeammate = () => {
-  store.addTeammate(newTeammateName.value).catch((msg) => {
-    ElMessage({
-      message: msg,
-      type: "error",
-    });
-  });
-};
 
 const newSprint = () => {
-  let sprint: Sprint = reactive({
-    name: `sprint ${store.count}`,
-    weeks: 2,
-    absences: {},
-    sp: 0
-  });
-  for (let teammate of store.teammates) {
-    sprint.absences[teammate] = 0;
-  }
-  store.addSprint(sprint);
-  editSprint(sprint);
-};
+  sprintsManager.addSprint(sprintsManager.createSprint());
+}
 
-const editSprint = (sprint: Sprint) => {
-  editedSprintIndex.value = store.sprints.indexOf(sprint);
-  drawer.value = true;
-};
 </script>
 
 <template>
-  <el-container direction="vertical" class="sprints">
-    <el-row>
-      <el-col :span="3">Sprint</el-col>
-      <el-col :span="1">Teammates</el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="3"></el-col>
-      <el-col :span="1" v-for="teammate in store.teammates" :key="teammate">
-        {{ teammate }}
-        <el-button @click="store.removeTeammate(teammate)">
-          <el-icon color="red">
-            <Close/>
-          </el-icon>
-        </el-button>
-      </el-col>
-      <el-col :span="1">
-        <el-input v-model="newTeammateName" placeholder="name"/>
-        <el-button @click="addTeammate()">Add</el-button>
-      </el-col>
-    </el-row>
-    <div v-for="sprint in store.sprints" :key="sprint.name"
-         class="sprint" >
-      <sprint-item
-          :sprint="sprint"
-          :days-a-week="daysAWeek"
-          @edit="editSprint"
-      />
+  <div>
+    <el-form :model="form" inline>
+      <el-form-item label="We work">
+        <el-input-number v-model="form.daysInWeek" size="small"/>
+        <span>&nbsp;days a week</span>
+      </el-form-item>
+      <el-form-item label="Count only the ">
+        <el-input-number v-model="form.xLastSprints"  size="small"/>
+        <span>&nbsp; last sprints</span>
+      </el-form-item>
+      <el-form-item label="Finished sprints only">
+        <el-switch v-model="form.finishedSprintsOnly" />
+      </el-form-item>
+    </el-form>
+  </div>
+  <el-scrollbar>
+    <div class="sprint-list">
+      <div>
+        <el-tooltip
+            content="New sprint"
+            placement="bottom"
+        >
+          <el-button type="primary" class="new-sprint-button" @click="newSprint">
+            <el-icon :size="20">
+              <Plus/>
+            </el-icon>
+          </el-button>
+        </el-tooltip>
+      </div>
+      <div v-for="(sprint, index) in sprintsManager.getSprints()" :key="index">
+        <sprint-list-item
+            :sprint="sprint"
+            :days-a-week="daysAWeek"
+        />
+      </div>
     </div>
-
-    <el-button
-        type="primary"
-        :disabled="store.teammates.size === 0"
-        @click="newSprint()"
-    >
-      New sprint
-    </el-button>
-  </el-container>
-  <el-drawer v-model="drawer" title="New sprint">
-    <sprint-form
-        v-model="store.sprints[editedSprintIndex]"
-        :days-a-week="daysAWeek"
-    />
-  </el-drawer>
+  </el-scrollbar>
 </template>
 
 <style scoped>
 table {
   border-collapse: collapse;
 }
-.sprints .sprint:last-child {
-  background-color: var(--el-color-primary);
+
+.sprint-list {
+  width: 90vw;
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.new-sprint-button {
+  height: 100%;
+  width: 80px;
 }
 </style>

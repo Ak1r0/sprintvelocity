@@ -21,7 +21,7 @@ const totalManDays = computed(() => {
   let total = 0;
   for(let sprint of store.sprints) {
     for(let teammate in sprint.absences) {
-      total+=absencesToManDays(sprint, teammate)
+      total += absencesToManDays(sprint, teammate)
     }
   }
   return total;

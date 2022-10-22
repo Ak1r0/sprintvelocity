@@ -11,13 +11,7 @@ import Calculator from "@/components/Calculator.vue";
       </el-header>
 
       <el-main>
-
-        <el-container>
-          <el-aside width="200px">
-            <calculator/>
-          </el-aside>
           <sprint-list />
-        </el-container>
       </el-main>
       <el-footer>
         <a href="https://iradesign.io"> Illustrations by IRA Design </a>
@@ -27,30 +21,5 @@ import Calculator from "@/components/Calculator.vue";
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
