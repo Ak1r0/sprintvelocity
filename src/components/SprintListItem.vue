@@ -9,16 +9,14 @@ import useVelocityCalculator from "@/services/VelocityCalculator";
 const sprintsManager = useSprintsManager();
 const calculator = useVelocityCalculator();
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   sprint: Sprint;
-  daysAWeek?: number;
-}>(), {
-  daysAWeek: 5,
-});
+}>();
 
 const newTeammate = ref('');
 const isNew = computed(() => !props.sprint.isStarted && !props.sprint.isFinished);
 const activeTeamPanel = ref(isNew.value);
+const maxDays = computed(() => props.sprint.weeks * calculator.config.daysAWeek)
 
 watchEffect(() => {
   if(!props.sprint.isStarted && !props.sprint.isFinished){
@@ -27,15 +25,9 @@ watchEffect(() => {
 }, {flush: 'post'});
 
 const availability = computed(() => {
-  let total = Object.values(props.sprint.absences).reduce((accumulator, current) => {
-    return accumulator - current;
-  }, maxAvailability.value);
+  let total = calculator.sprintAvailability(props.sprint);
 
-  return Math.round(total * 100 / maxAvailability.value);
-});
-
-const maxAvailability = computed(() => {
-  return props.sprint.weeks * props.daysAWeek * Object.keys(props.sprint.absences).length;
+  return Math.round(total * 100 / calculator.sprintMaxAvailability(props.sprint));
 });
 
 const addTeammate = (value: string) => {
@@ -44,7 +36,6 @@ const addTeammate = (value: string) => {
         newTeammate.value = '';
       })
       .catch((error) => {
-        console.log(error)
         ElMessage.error(error as string);
       });
 };
@@ -125,7 +116,7 @@ const addTeammate = (value: string) => {
           >
             <el-slider
                 v-model="sprint.absences[teammate]"
-                :max="sprint.weeks*daysAWeek"
+                :max="maxDays"
                 :step="1"
                 size="small"
                 class="slider"

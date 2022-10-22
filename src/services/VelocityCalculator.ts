@@ -1,12 +1,13 @@
 import useSprintsManager from "@/services/SprintsManager";
 import type Sprint from "@/models/Sprint";
+import {useVelocityStore} from "@/stores/velocityStore";
 
 class VelocityCalculator {
 
     private static self: VelocityCalculator;
 
     private sprintsManager;
-    public daysAWeek = 5;
+    public config;
 
     static build() {
         return this.self ?? (this.self = new VelocityCalculator());
@@ -14,16 +15,17 @@ class VelocityCalculator {
 
     private constructor() {
         this.sprintsManager = useSprintsManager();
+        this.config = useVelocityStore().config;
     }
 
-    public srintAvailability(sprint: Sprint): number {
+    public sprintAvailability(sprint: Sprint): number {
         return Object.values(sprint.absences).reduce((accumulator, current) => {
             return accumulator - current;
         }, this.sprintMaxAvailability(sprint));
     }
 
     public sprintMaxAvailability(sprint: Sprint): number {
-        return sprint.weeks * this.daysAWeek * Object.keys(sprint.absences).length;
+        return sprint.weeks * this.config.daysAWeek * Object.keys(sprint.absences).length;
     }
 
     /**
@@ -32,18 +34,19 @@ class VelocityCalculator {
      * @param newSprint
      */
     public velocity(newSprint: Sprint) {
-        let totalSP = 0, totalAv = 0;
-
+        let totalSP = 0, totalAv = 0, n = 0;
         this.sprintsManager.getSprints().forEach((sprint) => {
-            if (!sprint.isStarted && !sprint.isFinished) {
+            if (
+                (!sprint.isStarted && !sprint.isFinished)
+                || (this.config.finishedSprints && !sprint.isFinished)
+                || (this.config.lastSprints > 0 && n >= this.config.lastSprints)) {
                 return;
             }
-
             totalSP += sprint.sp;
-            totalAv += this.srintAvailability(sprint);
+            totalAv += this.sprintAvailability(sprint);
+            ++n;
         });
-
-        return Math.round((totalSP / totalAv) * this.srintAvailability(newSprint));
+        return Math.round((totalSP / totalAv) * this.sprintAvailability(newSprint));
     }
 }
 

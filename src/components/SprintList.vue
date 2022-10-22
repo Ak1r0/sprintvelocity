@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
 import useSprintsManager from "@/services/SprintsManager";
 import {Plus} from "@element-plus/icons-vue";
+import useVelocityCalculator from "@/services/VelocityCalculator";
 
 const sprintsManager = useSprintsManager();
+const calculator = useVelocityCalculator();
 
 //todo check sur mobile
 //todo lorsque les SP d'un sprint started sont modifies : compter les difference de SP par raport a l'etat initial
 //todo faire un graph affichant ces differences
 
-const form = reactive({ //todo mettre dans un store
-  daysInWeek: 5,
-  xLastSprints: 5,
-  finishedSprintsOnly: true,
-})
-const daysAWeek = ref(5);
-
+const form = calculator.config;
 const newSprint = () => {
   sprintsManager.addSprint(sprintsManager.createSprint());
 }
@@ -26,15 +21,15 @@ const newSprint = () => {
   <div>
     <el-form :model="form" inline>
       <el-form-item label="We work">
-        <el-input-number v-model="form.daysInWeek" size="small"/>
+        <el-input-number v-model="form.daysAWeek" size="small"/>
         <span>&nbsp;days a week</span>
       </el-form-item>
       <el-form-item label="Count only the ">
-        <el-input-number v-model="form.xLastSprints"  size="small"/>
+        <el-input-number v-model="form.lastSprints"  size="small"/>
         <span>&nbsp; last sprints</span>
       </el-form-item>
       <el-form-item label="Finished sprints only">
-        <el-switch v-model="form.finishedSprintsOnly" />
+        <el-switch v-model="form.finishedSprints" />
       </el-form-item>
     </el-form>
   </div>
@@ -55,7 +50,6 @@ const newSprint = () => {
       <div v-for="(sprint, index) in sprintsManager.getSprints()" :key="index">
         <sprint-list-item
             :sprint="sprint"
-            :days-a-week="daysAWeek"
         />
       </div>
     </div>

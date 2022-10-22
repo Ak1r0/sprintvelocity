@@ -1,14 +1,19 @@
 import {ref} from "vue";
 import {defineStore} from "pinia";
 import useSprintsManager from "@/services/SprintsManager";
-import type Sprint from "@/models/Sprint";
 import SprintsManager from "@/services/SprintsManager";
+import type Sprint from "@/models/Sprint";
 
-export const useSprintsStore = defineStore(
-    "sprints",
+export const useVelocityStore = defineStore(
+    "velocity",
     () => {
         const sprintCount = ref(1);
         const sprints = ref<Sprint[]>([]);
+        const config = ref({
+            daysAWeek: 5,
+            finishedSprints: true,
+            lastSprints: 5,
+        });
         const teammates = ref<string[]>([]);
 
         function incrementSprintCount(): number {
@@ -53,15 +58,13 @@ export const useSprintsStore = defineStore(
             sprints,
             addSprint,
             removeSprint,
-            teammates,
-            addTeammate,
-            removeTeammate,
-            incrementSprintCount
+            incrementSprintCount,
+            config,
         };
     },
     {
         persist: {
-            paths: ['sprints', 'sprintCount'],
+            paths: ['sprints', 'sprintCount', 'config'],
             afterRestore: (ctx) => {
                 for(let index in ctx.store.sprints) {
                     ctx.store.sprints[index] = SprintsManager().restoreFromStore(ctx.store.sprints[index]);

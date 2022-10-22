@@ -1,4 +1,4 @@
-export default class Sprint {
+export default class Sprint implements IStringIndex {
     public name: string = '';
     public absences: TeammateList = {};
 

@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import SprintList from "@/components/SprintList.vue";
-import Calculator from "@/components/Calculator.vue";
-</script>
+import SprintList from "@/components/SprintList.vue";</script>
 
 <template>
   <el-config-provider>
     <el-container>
       <el-header>
-        <h1>Sprint velociraptor</h1>
+        <h1>VelocityRaptor</h1>
       </el-header>
 
       <el-main>
           <sprint-list />
       </el-main>
       <el-footer>
-        <a href="https://iradesign.io"> Illustrations by IRA Design </a>
+        <a href="https://github.com/Ak1r0">Github</a>
       </el-footer>
     </el-container>
   </el-config-provider>

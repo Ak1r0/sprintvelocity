@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Calculator: typeof import('./src/components/Calculator.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
@@ -37,6 +36,5 @@ declare module '@vue/runtime-core' {
     SprintInput: typeof import('./src/components/SprintInput.vue')['default']
     SprintList: typeof import('./src/components/SprintList.vue')['default']
     SprintListItem: typeof import('./src/components/SprintListItem.vue')['default']
-    SprintListItem_old: typeof import('./src/components/SprintListItem_old.vue')['default']
   }
 }
