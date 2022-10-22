@@ -7,7 +7,7 @@ import Calculator from "@/components/Calculator.vue";
   <el-config-provider>
     <el-container>
       <el-header>
-        <h1>Sprint velocity calculator</h1>
+        <h1>Sprint velociraptor</h1>
       </el-header>
 
       <el-main>

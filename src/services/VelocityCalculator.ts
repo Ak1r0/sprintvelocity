@@ -1,19 +1,19 @@
 import useSprintsManager from "@/services/SprintsManager";
-import sprintsManager from "@/services/SprintsManager";
 import type Sprint from "@/models/Sprint";
 
 class VelocityCalculator {
 
     private static self: VelocityCalculator;
 
-    private sprintsManager = useSprintsManager();
+    private sprintsManager;
     public daysAWeek = 5;
 
     static build() {
         return this.self ?? (this.self = new VelocityCalculator());
     }
 
-    private __construct() {
+    private constructor() {
+        this.sprintsManager = useSprintsManager();
     }
 
     public srintAvailability(sprint: Sprint): number {

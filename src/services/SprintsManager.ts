@@ -3,9 +3,9 @@ import Sprint from "@/models/Sprint";
 
 class SprintsManager {
 
-    static self: SprintsManager;
+    private static self: SprintsManager;
 
-    private store = useSprintsStore();
+    private store;
 
     private maxSprints = 3;
 
@@ -13,7 +13,9 @@ class SprintsManager {
         return this.self ?? (this.self = new SprintsManager());
     }
 
-    private __construct(){}
+    private constructor(){
+        this.store = useSprintsStore();
+    }
 
     public getSprintIndex(sprint: Sprint): number {
         return this.store.sprints.indexOf(sprint);

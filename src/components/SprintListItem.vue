@@ -21,7 +21,6 @@ const isNew = computed(() => !props.sprint.isStarted && !props.sprint.isFinished
 const activeTeamPanel = ref(isNew.value);
 
 watchEffect(() => {
-  console.log(props.sprint)
   if(!props.sprint.isStarted && !props.sprint.isFinished){
     props.sprint.sp = calculator.velocity(props.sprint);
   }
