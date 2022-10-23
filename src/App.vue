@@ -13,6 +13,7 @@ import SprintList from "@/components/SprintList.vue";</script>
       </el-main>
       <el-footer>
         <a href="https://github.com/Ak1r0">Github</a>
+        <a href="https://www.flaticon.com/free-icons/paleontology" title="Paleontology icons">Paleontology icons created by Freepik - Flaticon</a>
       </el-footer>
     </el-container>
   </el-config-provider>

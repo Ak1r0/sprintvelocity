@@ -1,8 +1,7 @@
 import {ref} from "vue";
 import {defineStore} from "pinia";
 import useSprintsManager from "@/services/SprintsManager";
-import SprintsManager from "@/services/SprintsManager";
-import type Sprint from "@/models/Sprint";
+import Sprint from "@/models/Sprint";
 
 export const useVelocityStore = defineStore(
     "velocity",
@@ -67,7 +66,8 @@ export const useVelocityStore = defineStore(
             paths: ['sprints', 'sprintCount', 'config'],
             afterRestore: (ctx) => {
                 for(let index in ctx.store.sprints) {
-                    ctx.store.sprints[index] = SprintsManager().restoreFromStore(ctx.store.sprints[index]);
+                    let newSprint = new Sprint();
+                    ctx.store.sprints[index] = Object.assign(newSprint, ctx.store.sprints[index]);
                 }
             }
         },

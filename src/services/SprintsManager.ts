@@ -45,14 +45,6 @@ class SprintsManager {
     public removeSprint(sprint: Sprint): void {
         this.store.removeSprint(sprint);
     }
-
-    public restoreFromStore(sprint: Sprint) {
-        let newSprint = new Sprint();
-        for(let prop in sprint) {
-            newSprint[prop] = sprint[prop];
-        }
-        return newSprint;
-    }
 }
 
 const useSprintsManager = () => SprintsManager.build(); // Lazy load

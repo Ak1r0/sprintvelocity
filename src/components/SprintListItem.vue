@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type Sprint from "@/models/Sprint";
 import {computed, ref, watchEffect} from "vue";
-import Sprint from "@/models/Sprint";
 import {Delete} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
 import useSprintsManager from "@/services/SprintsManager";
@@ -111,7 +111,7 @@ const addTeammate = (value: string) => {
         <el-form>
           <el-form-item v-for="(_, teammate) in sprint.absences"
                         :key="teammate"
-                        :label="teammate"
+                        :label="''+teammate"
                         label-width="5em"
           >
             <el-slider
