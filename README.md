@@ -37,10 +37,8 @@ pnpm run lint
 
 ## TODO 
 
-- Last sprint is "current" sprint
-- Calculator
-- Service SprintManager to remove complexity from store
 - Add #version in store for structure updates & migrates
 - Import/Export store as json file
 - Add differents calculator algo to suit differents needs
 - Allow to manage many teams with differents sprints
+- Set theme with dark mode & try color here https://dribbble.com/shots/15221707/attachments/6967957?mode=media

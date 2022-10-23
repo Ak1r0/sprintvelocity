@@ -1,6 +1,6 @@
 {
-  "name": "sprintvelocity",
-  "version": "0.0.0",
+  "name": "velocityraptor",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
