@@ -28,7 +28,7 @@ const newSprint = () => {
         <el-input-number v-model="form.lastSprints" size="small"/>
         <span>&nbsp; last sprints</span>
       </el-form-item>
-      <el-form-item label="Finished sprints only">
+      <el-form-item label="From finished sprints only">
         <el-switch v-model="form.finishedSprints"/>
       </el-form-item>
     </el-form>

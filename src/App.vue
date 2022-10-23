@@ -45,8 +45,9 @@ import logoUrl from "@/assets/logo-180.png"
     background-position: center;
   }
   .el-footer {
-    background-color: #F8F9F9;
+    border-top: 2px solid #F8F9F9;
     background-repeat: no-repeat;
     height: 10%;
+    text-align: center;
   }
 </style>
