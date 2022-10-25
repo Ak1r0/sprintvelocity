@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type Sprint from "@/models/Sprint";
 import {computed, ref, watchEffect} from "vue";
-import {Delete} from "@element-plus/icons-vue";
+import {Delete, View, Hide} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
 import useSprintsManager from "@/services/SprintsManager";
 import useVelocityCalculator from "@/services/VelocityCalculator";
@@ -102,8 +102,12 @@ const addTeammate = (value: string) => {
       </el-col>
     </el-row>
     <el-divider content-position="left">
-      See team absences
-      <el-switch v-model="activeTeamPanel" class="mb-2"
+      Team absences
+      <el-switch v-model="activeTeamPanel"
+                 class="mb-2"
+                 :active-icon="View"
+                 :inactive-icon="Hide"
+                 inline-prompt
       />
     </el-divider>
     <el-row v-show="activeTeamPanel">
