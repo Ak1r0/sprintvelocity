@@ -42,3 +42,4 @@ pnpm run lint
 - Add differents calculator algo to suit differents needs
 - Allow to manage many teams with differents sprints
 - Set theme with dark mode & try color here https://dribbble.com/shots/15221707/attachments/6967957?mode=media
+- and so much more
